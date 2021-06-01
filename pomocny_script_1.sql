@@ -14,14 +14,6 @@ LEFT JOIN covid19_tests ct
 	AND base.country = ct.country 
 
 
-SELECT 
-	*
-FROM covid19_tests ct
-WHERE country = 'Czech Republic'
-ORDER BY `date` DESC
-
-
-
 -- urceni binarni promenne pro vikend
 SELECT
 	`date`,
