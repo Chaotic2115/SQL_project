@@ -1,18 +1,5 @@
 
 
-SELECT 
-	base.date,
-	base.country,
-	base.confirmed,
-	c.population,
-	ct.tests_performed 
-FROM covid19_basic_differences base
-LEFT JOIN countries c 
-	ON base.country = c.country
-LEFT JOIN covid19_tests ct 
-	ON base.`date` = ct.`date` 
-	AND base.country = ct.country 
-
 
 -- urceni binarni promenne pro vikend
 SELECT
@@ -20,6 +7,16 @@ SELECT
 	CASE WHEN WEEKDAY(`date`) IN (0,1,2,3,4) THEN 0
 		 ELSE 1 END Weekend_or_not
 FROM covid19_basic_differences base;
+
+-- rocni obdobi 0-3
+SELECT 
+	date,
+	CASE WHEN `date` BETWEEN '2020-03-21' AND '2020-06-20' THEN 1
+		 WHEN `date` BETWEEN '2020-06-21' AND '2020-09-22' THEN 2
+		 WHEN `date` BETWEEN '2020-09-23' AND '2020-12-22' THEN 3 
+		 WHEN `date` BETWEEN '2021-03-21' AND '2021-05-23' THEN 1 ELSE 0
+	END AS sessions
+FROM covid19_basic_differences cbd;
 
 -- HDP na obyvatele
 SELECT 
