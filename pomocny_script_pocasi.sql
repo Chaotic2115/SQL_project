@@ -1,12 +1,17 @@
 SELECT * FROM weather w ;
 
--- maximalni sila vetru v narazech   - nejak mi to nevychazi jeste popremyslet
+-- maximalni sila vetru v narazech   - oprava
 SELECT 
-	CAST(date AS date) AS datum,
-	MAX(gust) AS max_gust
-FROM weather w 
-WHERE date >= '2020-01-01'
-GROUP BY `date`
+	a.datum,
+	MAX(a.gust_a) AS max_gust
+FROM (
+	SELECT 
+		CAST(date AS date) AS datum,
+		gust,
+		CAST(gust AS INT) AS gust_a
+	FROM weather w 
+	WHERE date >= '2020-01-01') a
+GROUP BY a.datum
 
 -- pocet hodin nenulovych srazek - oprava
 SELECT 	
@@ -48,7 +53,7 @@ FROM(
 JOIN (
 	SELECT 
 		CAST(date AS date) AS datum,
-		CONCAT(ROUND(AVG(temp), 2), ' °c') AS day_avg_temp
+		ROUND(AVG(temp), 2) AS day_avg_temp
 	FROM weather w 
 	WHERE 1=1
 		AND time BETWEEN '06:00' AND '21:00'
@@ -57,14 +62,29 @@ JOIN (
 ON a.datum = b.datum
 JOIN (
 	SELECT 
-		CAST(date AS date) AS datum,
-		MAX(gust) AS max_gust
-	FROM weather w 
-	WHERE date >= '2020-01-01'
-	GROUP BY `date`) c
+		a.datum,
+		MAX(a.gust_a) AS max_gust
+	FROM (
+		SELECT 
+			CAST(date AS date) AS datum,
+			gust,
+			CAST(gust AS INT) AS gust_a
+		FROM weather w 
+		WHERE date >= '2020-01-01') a
+	GROUP BY a.datum) c
 ON a.datum = c.datum
 
 
-
-
+-- pokus s vetrem
+SELECT 
+	a.datum,
+	MAX(a.gust_a) AS max_gust
+FROM (
+	SELECT 
+		CAST(date AS date) AS datum,
+		gust,
+		CAST(gust AS INT) AS gust_a
+	FROM weather w 
+	WHERE date >= '2020-01-01') a
+GROUP BY a.datum
 
