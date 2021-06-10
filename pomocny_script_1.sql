@@ -15,7 +15,7 @@ SELECT
 		 WHEN `date` BETWEEN '2020-06-21' AND '2020-09-22' THEN 2
 		 WHEN `date` BETWEEN '2020-09-23' AND '2020-12-22' THEN 3 
 		 WHEN `date` BETWEEN '2021-03-21' AND '2021-05-23' THEN 1 ELSE 0
-	END AS sessions
+	END AS Seasons
 FROM covid19_basic_differences cbd;
 
 -- HDP na obyvatele
