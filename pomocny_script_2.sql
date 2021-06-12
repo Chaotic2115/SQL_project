@@ -14,6 +14,7 @@ WHERE 1=1
 	AND r.`year` = 2020
 	AND r2.`year` = 2020
 GROUP BY r.country, r.religion 
+HAVING celk_pop > 0
 
 -- rozdeleni nabozenstvi do sloupcu - ve finalni tabulce pouzit MAX() na kazde nabozenstvi, aby byla hodnota na kazdem radku
 
