@@ -182,7 +182,7 @@ WITH weath AS (
 	JOIN (
 		SELECT 
 			CAST(date AS date) AS datum,
-			ROUND(AVG(temp), 2) AS day_avg_temp
+			CAST(ROUND(AVG(TRIM(TRAILING ' °c' FROM temp)), 2) AS DOUBLE) AS day_avg_temp
 		FROM weather w 
 		WHERE 1=1
 			AND time BETWEEN '06:00' AND '21:00'
@@ -197,7 +197,7 @@ WITH weath AS (
 			SELECT 
 				CAST(date AS date) AS datum,
 				gust,
-				CAST(gust AS INT) AS gust_a
+				CAST(TRIM(TRAILING ' km/h' FROM gust) AS INT) AS gust_a
 			FROM weather w 
 			WHERE date >= '2020-01-01') a
 		GROUP BY a.datum) c
