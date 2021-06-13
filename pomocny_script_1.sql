@@ -25,7 +25,8 @@ SELECT
 	GDP,
 	population,
 	ROUND(GDP/population, 2) AS na_obyvatele
-FROM economies e ;
+FROM economies e 
+WHERE `year` = '2018';
 
 -- hustota zalidneni
 SELECT 
