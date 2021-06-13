@@ -1,6 +1,6 @@
 SELECT * FROM weather w ;
 
--- maximalni sila vetru v narazech   - oprava
+-- maximalni sila vetru v narazech   - oprava 2, vymazana chyba s prevodem na INT odstranenim km/h z retezce
 SELECT 
 	a.datum,
 	MAX(a.gust_a) AS max_gust
@@ -8,7 +8,7 @@ FROM (
 	SELECT 
 		CAST(date AS date) AS datum,
 		gust,
-		CAST(gust AS INT) AS gust_a
+		CAST(TRIM(TRAILING ' km/h' FROM gust) AS INT) AS gust_a
 	FROM weather w 
 	WHERE date >= '2020-01-01') a
 GROUP BY a.datum
@@ -24,10 +24,10 @@ WHERE 1=1
 GROUP BY date
 
 
--- prumerna denni teplota - den beru z teto tabulky cas od 6:00 do 21:00
+-- prumerna denni teplota - den beru z teto tabulky cas od 6:00 do 21:00 - oprava s °c
 SELECT 
 	CAST(date AS date) AS datum,
-	CONCAT(ROUND(AVG(temp), 2), ' °c') AS denni_prumer
+	CAST(ROUND(AVG(TRIM(TRAILING ' °c' FROM temp)), 2) AS DOUBLE) AS denni_prumer
 FROM weather w 
 WHERE 1=1
 	AND time BETWEEN '06:00' AND '21:00'
