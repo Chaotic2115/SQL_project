@@ -28,11 +28,11 @@ SELECT
 FROM economies e 
 WHERE `year` = '2018';
 
--- hustota zalidneni
+-- hustota zalidneni - zbytecny vypocet, staci pouzit zaokrouhlenou hodnotu z tabulky
 SELECT 
 	country,
 	surface_area,
-	round(population_density, 2) AS a,
+	ROUND(population_density, 2) AS a,
 	ROUND(SUM(surface_area * population_density) / SUM(surface_area), 2) AS hustota_zalidneni
 FROM countries c 
 GROUP BY country ;
