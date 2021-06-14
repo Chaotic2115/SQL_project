@@ -1,0 +1,26 @@
+V úkolu jsem se prvně pustil do počítání proměnných.
+- Proměnná pro víkend - pomocí CASE WHEN, kde jsem jako podmínku použil WEEKDAY pro sloupec date, a určil že vikendové dny budou 1 a ostatní 0
+- Určení ročního období (0-3) - vytáhl jsem si seřazená všechna data ze zakladní tabulky a pomocí CASE WHEN jsem zadal data ročních období podle slunovratů a rovnodenností
+- GINI koeficient je součástí tabulek - vzal jsem rok pro který jsou data, v tomto případě rok 2018 - ne pro všechny země je znám GINI koeficient
+- Dětská úmrtnost je součástí tabulek s GINI, tak je použit stejný rok 2018
+- Medián věku obyvatel v roce 2018 je součástí tabulek
+- HDP na obyvatele vypocet v tabulce economies, podíl HDP a celkové populace
+- Hustota zalidnění v tabulce countries 
+- Podíly jednotlivých naboženství jsem roztřídil do jednotlivých sloupců podle daného náboženství, s výpočtem podílu populace přímo z tabulky religions a omezením kvůly dělení 0
+- Rozdíl mezi očekávanou dobou dožití v roce 1965 a 2015 - vyfiltroval jsem dobu dožití pro rok 1965 a 2015, JOINul jsem je na sebe a v SELECTu vypočítal rozdíl
+- Průměrná denní teplota - jako den beru podle časů v tabulce weather 6:00 - 21:00, oříznul jsem °c v textu sloupce, abych mohl použít CAST na převedení na DOUBLE a udělat průměr
+	- ve finální tabulce jsem použil CONCAT a vrátil  °c k výsledným hodnotám
+- Maximální síla větru v nárazech - pomocí vnořeného SELECTu ve kterém jsem oříznul km/h ve sloupci s hodnotami větru abych mohl použít CAST na převod na INT,
+	v nadřazeném SELECTu jsem pomocí MAX získal maximální hodnotu pro daný den
+	- ve finální tabulce jsem použil CONCAT a vrátil  km/h k výsledným hodnotám
+- Počet hodin nenulových srážek - vyfiltroval jsem všechny nenulové hodnoty srážek, sečetl je a vynásobil 3, protože časové údaje jsou po 3 hodinách
+
+
+Je potřeba přejmenovat země v tabulce covid_diff - Czechia na Czech Republic, US na United States a Russia na Russian Federation, v tabulce Covid_Tests je potřeba přejmenovat Russia na Russian Federation
+Díky přejmenování lze většinu tabulek spojit pomocí sloupců country, jen covid_diff a covid_test ma druhý spojovací klíč date. Pomocí date je připojena i poslední tabulka o počasí.
+
+Jako výchozí tabulku beru Covid_diff, ke které pomocí LEFT JOINu připojuji ostatní tabulky, tak mi zůstatne datové rozpětí a rozpětí zemí ze zakladní tabulky.
+Pokud připojuji jen pomocí zemí, dostanu data k zemím v zakladní tabulce. U tabulky testů ovšem končí zaznamy 2020-11-24, ale v zakladní tabulce jsou data až do 2021-05-23.
+Tabulka počasí končí 2021-04-30, takže v nejnovějších datech zakladní tabulky jsou hodnoty NULL.
+
+Finální spojení jsem udělal přes WITH, ve kterém jsou pro spojení použity dočasné tabulky a výsledná vznikne jako jeden SQL příkaz.
