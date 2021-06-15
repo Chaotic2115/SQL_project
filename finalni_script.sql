@@ -1,5 +1,5 @@
 
-CREATE OR REPLACE TABLE t_final_try AS 
+CREATE OR REPLACE TABLE t_Martin_Exler_projekt_SQL_final AS 
 WITH covid19_diff AS (
 	SELECT 
 		`date`,
@@ -93,7 +93,7 @@ second_conn AS (
 		c.Children_deaths,
 		a.median_age_2018,
 		b.diff_in_life_expectancy
-	FROM t_druha AS a
+	FROM first_conn AS a
 	LEFT JOIN life_diff AS b
 		ON a.country = b.country
 	LEFT JOIN econom AS c 
@@ -144,7 +144,7 @@ third_conn AS (
 		MAX(b.Other_Religions) AS Other_Religions,
 		MAX(b.Unaffiliated_Religions) AS Unaffiliated_Religions,
 		a.diff_in_life_expectancy AS Diff_in_life_expectancy
-	FROM t_treti AS a
+	FROM second_conn AS a
 	LEFT JOIN relig AS b
 		ON a.country = b.country
 	GROUP BY a.country, a.`date`
@@ -199,9 +199,6 @@ LEFT JOIN weath AS b
 ORDER BY a.country, a.date;
 		
 	
-	
-	
-
 	
 	
 	
