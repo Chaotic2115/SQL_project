@@ -27,4 +27,4 @@ V tabulce testů nejsou známy všechny země jako v zakladní tabulce s počty 
 Tabulka počasí končí 2021-04-30, takže v nejnovějších datech zakladní tabulky jsou hodnoty NULL.
 
 Finální spojení jsem udělal přes WITH, ve kterém jsou pro spojení použity dočasné tabulky a výsledná vznikne jako jeden SQL příkaz. 
-Na localu trvalo vytvoření tabulky cca 27 minut.
+Na localu trvalo vytvoření tabulky cca 55 minut.
