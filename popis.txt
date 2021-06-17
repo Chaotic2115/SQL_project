@@ -2,9 +2,11 @@ V úkolu jsem se prvně pustil do počítání proměnných.
 - Proměnná pro víkend - pomocí CASE WHEN, kde jsem jako podmínku použil WEEKDAY pro sloupec date, a určil že vikendové dny budou 1 a ostatní 0
 - Určení ročního období (0-3) - vytáhl jsem si seřazená všechna data ze zakladní tabulky a pomocí CASE WHEN jsem zadal data ročních období podle slunovratů a rovnodenností
 - GINI koeficient je součástí tabulek - vzal jsem rok pro který jsou data, v tomto případě rok 2018 - ne pro všechny země je znám GINI koeficient
-- Dětská úmrtnost je součástí tabulek s GINI, tak je použit stejný rok 2018
+	- oprava - v roce 2018 je pořád málo dat, použil jsem vnořený SELECT pro JOIN tabulky economies samu na sebe, a vybral pomocí filtru GINI koeficient z období 2000-2020 pro každou zemi,
+		podle toho, pro který rok je znám. I tak pořád není znám pro všechyn země.		
+- Dětská úmrtnost je součástí tabulek economies, je použit rok 2019 - poslední rok pro který jsou data
 - Medián věku obyvatel v roce 2018 je součástí tabulek
-- HDP na obyvatele vypocet v tabulce economies, podíl HDP a celkové populace
+- HDP na obyvatele vypocet v tabulce economies, podíl HDP a celkové populace v roce 2019
 - Hustota zalidnění v tabulce countries 
 - Podíly jednotlivých naboženství jsem roztřídil do jednotlivých sloupců podle daného náboženství, s výpočtem podílu populace přímo z tabulky religions a omezením kvůly dělení 0
 - Rozdíl mezi očekávanou dobou dožití v roce 1965 a 2015 - vyfiltroval jsem dobu dožití pro rok 1965 a 2015, JOINul jsem je na sebe a v SELECTu vypočítal rozdíl
@@ -21,6 +23,8 @@ Díky přejmenování lze většinu tabulek spojit pomocí sloupců country, jen
 
 Jako výchozí tabulku beru Covid_diff, ke které pomocí LEFT JOINu připojuji ostatní tabulky, tak mi zůstatne datové rozpětí a rozpětí zemí ze zakladní tabulky.
 Pokud připojuji jen pomocí zemí, dostanu data k zemím v zakladní tabulce. U tabulky testů ovšem končí zaznamy 2020-11-24, ale v zakladní tabulce jsou data až do 2021-05-23.
+V tabulce testů nejsou známy všechny země jako v zakladní tabulce s počty nakažených. Jsou tedy zachovány země v základní tabulce, aby byl znám počet nakažených i když nejsou údaje o testech.
 Tabulka počasí končí 2021-04-30, takže v nejnovějších datech zakladní tabulky jsou hodnoty NULL.
 
-Finální spojení jsem udělal přes WITH, ve kterém jsou pro spojení použity dočasné tabulky a výsledná vznikne jako jeden SQL příkaz.
+Finální spojení jsem udělal přes WITH, ve kterém jsou pro spojení použity dočasné tabulky a výsledná vznikne jako jeden SQL příkaz. 
+Na localu trvalo vytvoření tabulky cca 27 minut.
