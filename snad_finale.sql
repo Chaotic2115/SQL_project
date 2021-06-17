@@ -66,12 +66,23 @@ ORDER BY a.country, a.date;
 CREATE OR REPLACE TABLE t_treti AS
 WITH econom AS (
 	SELECT 
-		country,
-		gini AS GINI_coef,
-		mortaliy_under5 AS Children_deaths,
-		ROUND(GDP/population, 2) AS GDP_per_person
+		e.country,
+		e2.gini AS GINI_coef,
+		e.mortaliy_under5 AS Children_deaths,
+		ROUND(e.GDP/e.population, 2) AS GDP_per_person
 	FROM economies e
-	WHERE e.`year` = 2018
+	LEFT JOIN (
+		SELECT 
+			country,
+			gini
+		FROM economies 
+		WHERE 1=1
+			AND gini IS NOT NULL
+			AND (`year` BETWEEN '2000' AND '2020')
+		GROUP BY country 
+		) e2
+		ON e.country = e2.country
+	WHERE e.`year` = 2019
 ),
 life_diff AS (
 	SELECT 
@@ -210,7 +221,13 @@ SELECT
 	b.max_gust
 FROM t_cvrta a 
 LEFT JOIN weath b 
-	ON a.date = b.datum
+	ON a.date = b.datum;
+
+
+
+
+	
+
 
 	
 	
